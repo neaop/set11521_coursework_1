@@ -1,0 +1,281 @@
+﻿Introduction
+
+
+Sentiment analysis (SA) is a Natural Language Processing (NLP)
+technique used to identify the opinion of a
+body of text, i.e. whether the meaning being conveyed is positive or negative.
+
+SA has been proven to perform effectively upon traditional
+texts, but current interest is focused on the analysis of informal texts in the form of social media.
+
+Companies, academics, and governments are all embracing social media as a forum
+to collect feedback and track cultural shifts. 
+This makes SA of social media a particularly "trendy" area of
+research, as there are a range of stakeholders and approaches in one domain.
+
+This paper records a review and comparison of three different sentiment
+analysis systems used to categorise opinions from tweets.
+The systems include: A supervised solution; a lexicon approach,
+and a combined hybrid system
+
+
+Background
+
+
+NLP is a field of computing that focuses on systems understanding human
+language.  
+
+SA is a subdomain of NLP that focuses on extracting the sentiment from text.
+SA is typically sorts text into categories - positive or negative.
+
+There are two main SA techniques;
+Knowledge-based and Statistical based.
+
+Knowledge-based approaches require the use of pre- existing data.
+The most basic form of knowledge-based SA consists of
+comparing the words in a body of text (corpus) to those in an annotated
+dictionary (lexicon).
+A lexicon contains a set of words and the sentiment each word conveys -
+typically a value between -1 (very negative) and 1 (very positive).
+A naive approach to SA is to simply add together the lexicon
+scores for each word in a corpus.
+While such a system may be simple to develop, it is unlikely to produce
+accurate results without incorporating other techniques.
+
+Some techniques used to improve the effectiveness of knowledge-based systems
+include;
+
+Tokenisation - splitting a text into multiple tokens/n-grams. 
+Part-of-speech tagging (PoS) - categorising words as nouns, verbs, etc.
+
+Lemmatisation - reducing a word to its base meaning.
+Stop word removal - removing words that carry no meaning - 'that', 'a', 'the',
+etc.
+
+Statistical approaches to SA often rely on machine learning
+(ML) techniques in their attempt to classify a corpus.
+Statistical approaches utilise one of two styles of technique;
+supervised learning, or unsupervised learning.
+
+Supervised learning consists of techniques that train a system to categorise input by first training it with a pre-labelled data set.
+A method to conduct supervised learning would to be to hand categorise a
+number of tweets as either positive, negative or neutral and use these to
+train a system. 
+Once trained the system could attempt to categorise new corpora
+by attempting to match features that were present in the training data.
+
+Supervised learning has been shown to be effective method of classifying a
+range of different data, but also has a number of drawbacks. 
+A substantial amount of training data must be gathered and categorised
+which can be a time consuming and monotonous.
+
+A second potential disadvantage of a supervised system is that it is possible to
+over-train.
+Over-training occurs when the data used to train the system is too dissimilar
+to the data used to test it. 
+This can occur due to training set not being diverse in quality or style, or
+when training data been overly cleaned and no longer representative of
+the testing data.
+
+Unsupervised learning is a ML technique that operates on unlabelled data.
+Unsupervised learning is considered a black-box, as there is essentially no
+way of determining which data features the system could use to classify
+inputs.
+Unsupervised techniques such as clustering and neural networks can be
+attractive approaches to solving classification problems, as large data sets
+do not have to be hand labelled.
+Such systems may also be able to exploit patterns in data that are unintuitive
+or unrecognisable to humans.
+
+
+Discussion
+
+
+While the three systems being reviewed in this paper each had the same goal -
+the sentiment classification of tweets - the approaches and methodologies of
+each system varied greatly.  
+This section aims to highlight and compare these differences.
+
+Data-sets
+Each system was tested with a bespoke dataset, rather than a pre-existing
+published  corpus of tweets.  
+This was required as two of the system were designed to be used within
+specific domains or genres, and a general purpose dataset would not be
+suitable.
+
+The supervised system compiled its dataset from tweets posted between September
+and October 2014 which contained the hashtags: #kashmirfloods and #jammufloods
+via use of the Twitter API.
+8490 tweets were collected, of which 6165 made up the final dataset.
+Once the tweets had been gathered the dataset had to go through preprocessing
+to make it suitable for the system.
+The tweets were converted to lower-case, punctuation was removed as were extra
+characters - e.g. the word 'saaad' became 'sad'.  
+Tokenisation and PoS tagging were applied to the tweets and common stop words
+were removed. 
+As the floods mentioned in the tweets took place in India, many of the tweets
+were written in Hindi.
+Rather than ignoring non-English tweets, they were translate to English via
+Google Translate.  
+Once the dataset was cleaned, it was categorised and annotated by hand,
+resulting in 1537 positive, 917 negative, and 3711 neutral tweets.
+The dataset was then split into training and testing sets, containing 5549 and
+616 tweets, respectively.
+
+The lexicon system was designed to classify social media post of multiple
+formats, including Twitter, MySpace and Digg.
+The Twitter data set for this system was collected via use of sentiment140.com
+- a service that aggregates tweets containing specific keywords and apply its
+own sentiment classification annotations.
+In total 20000 tweets were collected for the dataset, 10000 positive and 10000
+negative.
+Preprocessing was then applied to the dataset; the Tweet NLP library was used
+to tokenize and apply PoS tags to each of the tweets.
+Lemmasation was then applied to the tweets to replace words with their
+dictionary root.
+
+The hybrid system utilised the Tweepy Python library to gather tweets.
+Three datasets were collected using key words from three different domains; 
+auto mobile, laptops, and health.
+The IBM  AlchemyAPI was used to automatically categorize tweets into
+positive, negative and neutral categories - resulting in 10364 tweets across
+three distinct subject genres.
+The Hybrid system's datasets went through a thorough preprocessing;
+the Python NLTK library was used to tokenise each tweet and Lemmatation and PoS tags were also added.  
+Finally, negation words ('but', 'not', etc.) were identified so as to reduce
+or invert the sentiment of neighbouring words.
+10364 tweets were colleceted, split into training and test sets at a ratio of
+9:1.
+
+As each approach required a unique dataset, it makes comparison between
+papers difficult.
+It appears that a supervised approach was overzealous during its data preprocessing, removing many sentiment carrying features that are unique to social media e.g. emoticons, capitalisation, and repeating letters - resulting in a dataset very similar to a traditional text.
+Another issue with the Supervised dataset was the choice to translate
+non-English tweets via Google Translate, potentially loosing all form sentiment
+during the conversion process.
+Conversely, both the lexicon and hybrid system's datasets retained much of the
+social-media specific features of the Tweets but did not manually label and
+categorise there data - opting to utilise pre-existing SA systems.
+While the choice to automate data labelling would have saved significant time,
+it is likely that a percentage of the data would be mislabelled,
+leading to inaccurate results.
+
+
+Approach
+
+
+As each system utilised different domain methodologies, each  of the
+papers approached the task of SA differently.
+
+The supervised system operated via a Naive Bayes classifier algorithm.
+Naive Bayes is a simple probabilistic classifier that is based on Bayes
+theorem.
+Essentially, the algorithm will attempt to classify a word based upon the
+words rate of occurrence in tweets of a particular category - e.g. if the word
+'sad' appeared in 50% of negative tweets and in only 5% of positive tweets, the
+algorithm would classify 'sad' as a negative word.
+A Naive Bayes algorithm requires experience in order to accurately classify
+tokens - hence the reason the dataset was split into two - the larger set used
+to train and the smaller to test.
+The algorithm was trained and tested using unigrams (a single token at a
+time).
+
+The lexicon approach did not rely on a single general purpose lexicon. A
+second lexicon was generated for domain specific words, i.e. words that the
+general lexicon had no entry for or may have a differing polarity based on the
+context they are used within.
+SentiWordNet (SWN) was used as the general purpose lexicon in this system.
+SWN is a free to use lexicon that has been used in numerous NLP and SA
+systems.
+A domain-focused (DF) lexicon was automatically generated by scanning the
+dataset for unique terms, and assigning a polarity to said word based on the
+annotated sentiment of the tweet and any sentiment carrying emoticons.
+A hybrid lexicon was then generated by combining the SWN and DF lexicons.
+In addition to the hybrid lexicon, this system  used a number of rules in
+order to better categorise sentiment based on the context of a sentence.
+Lexical polarity shifters (words like 'very', or 'slightly') and negators
+('but, 'never') alter the sentiment of words around them - increasing,
+decreasing, reversing or simply removing polarity depending on the word.
+Non-lexical sentiment rules were also incorporated into the system;
+emoticons, capitalisation, and letter repetition were all analysed.
+Interestingly, the logic of the system would cause any tweet that contained a
+single emoticon to be assigned the sentiment of said emoticon - an entirely
+negative tweet that ended with a grinning face (':D') would be considered highly
+positive.
+
+The hybrid system combined elements from both knowledge-based and statistic
+domains of SA.
+The knowledge-based elements consisted of a number of lexicons, SWN, slang and
+emoticon lexicons were all used to perform general lexical analysis of the
+corpus.
+In addition, a domain specific lexicon was generated for each dataset domain
+via the use of a Naive Bayes algorithm in a similar style to the supervised
+approach.
+Words that occurred repeatedly but had no entry in the SWN lexicon, or were
+found to be in tweets of different sentiment classification were added to a
+DF lexicon, with a polarity score based upon average polarity of the tweets
+that they were from.
+While this proved to be an effective way to collect domain specific words,
+it did result in certain words that should carry no sentiment being assigned
+an incorrect polarity - the name 'Suzuki' appeared in many positive tweets, but
+a brand name is not a subjective term.
+
+Each systems approach to the SA task varied not only in style but also in
+complexity.
+The supervised approach utilised one of the most simple classification
+functions available, while the lexicon approach had a distinct (if not confusing) focus on sentence structure and analysing context.
+The hybrid system's creative approach to lexicon generation via machine
+learning allowed the system to combine two relatively simple concepts without
+over complicating either, resulting in a system that was nuanced but not convoluted.
+
+Results
+While the three systems implemented different NLP techniques, they each
+analysed their results via a confusion matrix.
+A confusion matrix tracks the number of correct and incorrect classifications
+and allows the evaluation of a system's accuracy - the F-score is a normalised
+value between 0 and 1, that provides a balanced result taking into account
+both the precision and recall of a system.
+The average F-scores for each system are presented below:
+
+Supervised  |   0.55
+Lexicon     |   0.71
+Hybrid      |   0.78
+
+It is worth questioning the validity of the lexicon and hybrid system's
+results, as both used automatically labelled datasets, which may have skewed
+performance.
+
+It is also noteworthy that the Supervised system, which removed many
+social-media specific features from its corpus, produced the lowest F-score.
+Considering the dataset of the system was extremely similar to a traditional
+corpus this result is unintuitive.
+
+Both the lexicon and hybrid systems utilised general purpose and DF lexicons to
+classify tweets.
+The hybrid system was able to achieve a higher F-score, and this may be due to
+the more advanced approach used to create its DF lexicons.
+
+The lexicon system had an unusual obsession with emoticon usage, generating
+its DF lexicon and classifying entire tweets based on the presence of
+emoticons.
+This naive reliance would likely result in incorrect classifications, due to satirical or improper use of emoticons in the corpus.
+
+
+Conclusion
+
+
+There are numeral ways to approach the task of SA, and the papers reviewed in
+this report were chosen to reflect these choices.
+
+It is clear from the results that the systems that utilised more advanced
+features, and took into account the unique nature of social media's language
+performed to a higher degree.
+While it may just be an artefact of the automatically labelled datasets, the
+lexicon and hybrid systems both had a focus on non-lexical component's,
+leading to a higher F-score compared to the supervised system.
+
+Ideally, an optimal SA investigation would combine the hand-labelled dataset
+of the supervised system (without over-cleaning) and the dual lexicon and
+machine learning  approach of the hybrid system to thoroughly examine if the
+hybrid system truly outperformed the other approaches presented in this paper.
+
